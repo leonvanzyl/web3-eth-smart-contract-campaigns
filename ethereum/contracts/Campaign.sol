@@ -94,4 +94,19 @@ contract Campaign {
         r.complete = true;
     }
 
+    // Get Campaign Summary
+    function getSummary() public view returns (uint, uint, uint, uint, address){
+        return (
+            minContr,
+            address(this).balance,
+            requests.length,
+            approversCount,
+            manager
+        );
+    }
+
+    function getRequestCount() public view returns (uint){
+        return requests.length;
+    }
+
 }
