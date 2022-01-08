@@ -8,7 +8,7 @@ The front end uses Next.js & React.
 
 # Setting up Environment Variable File
 
-In the root directory, create a file called env.js.
+Create a file called env.js in die ethereum directory.
 Add the following values to ENV.JS:
 
 ```javascript
