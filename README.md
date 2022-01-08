@@ -4,6 +4,8 @@ For this project I have used Metamask for the wallet. For authentication, the mn
 
 In order to connect to the Rinkeby test network, the Infura API was used. The Infura endpoint is also stored in the environment variable file.
 
+The front end uses Next.js & React.
+
 # Setting up Environment Variable File
 
 In the root directory, create a file called env.js.
