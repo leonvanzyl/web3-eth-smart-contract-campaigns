@@ -4,8 +4,9 @@ import React from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
+import { Card } from "semantic-ui-react";
+
 // Ethereum stuff
-import factory from "../../ethereum/factory";
 import Campaign from "../../ethereum/campaign";
 import web3 from "../../ethereum/web3";
 
@@ -17,12 +18,70 @@ function Show(props) {
   const router = useRouter();
   const address = router.query["address"];
 
+  // Summary Items
+
+  const {
+    balance,
+    manager,
+    minimumContribution,
+    requestsCount,
+    approversCount,
+  } = props.summary;
+
+  const items = [
+    {
+      header: manager,
+      description:
+        "The manager created this campaign and can request to withdraw funds.",
+      meta: "Address of manager",
+      style: {
+        overflowWrap: "break-word",
+      },
+    },
+    {
+      header: minimumContribution,
+      description:
+        "You must contribute at least this much Wei to become an approver.",
+      meta: "Minimum Contribution (Wei)",
+      style: {
+        overflowWrap: "break-word",
+      },
+    },
+    {
+      header: requestsCount,
+      description:
+        "A request tried to withdraw money from the contract.  Requests must be approved by approvers.",
+      meta: "Number of requests",
+      style: {
+        overflowWrap: "break-word",
+      },
+    },
+    {
+      header: approversCount,
+      description:
+        "Number of people who have already contributed to the campaign.",
+      meta: "Number of approvers",
+      style: {
+        overflowWrap: "break-word",
+      },
+    },
+    {
+      header: web3.utils.fromWei(balance, "ether"),
+      description:
+        "The balance is how much funds this campaign has available to spend.",
+      meta: "Balance (in Ether)",
+      style: {
+        overflowWrap: "break-word",
+      },
+    },
+  ];
+
   return (
     <Layout>
       <Head>
         <title>Details of Campaign {address}</title>
       </Head>
-      Campaign: {address}
+      <Card.Group items={items} />
     </Layout>
   );
 }
@@ -37,7 +96,7 @@ Show.getInitialProps = async (data) => {
     summary: {
       minimumContribution: summary[0],
       balance: summary[1],
-      requests: summary[2],
+      requestsCount: summary[2],
       approversCount: summary[3],
       manager: summary[4],
     },
