@@ -7,10 +7,17 @@ import Layout from "../../../../components/UI/Layout";
 import Campaign from "../../../../ethereum/campaign";
 import web3 from "../../../../ethereum/web3";
 
+// Next Router
+import { useRouter } from "next/router";
+import Link from "next/link";
+
 // Semantic UI
 import { Form, Button, Message, Input } from "semantic-ui-react";
 
 function New({ address }) {
+  // Router
+  const router = useRouter();
+
   // States
   const [descriptionValue, setDescriptionValue] = useState("");
   const [amountValue, setAmountValue] = useState("");
@@ -19,11 +26,39 @@ function New({ address }) {
   const [isSending, setIsSending] = useState(false);
 
   // Handler Functions
-  const handleCreateButton = () => {};
+  const handleCreateButton = async () => {
+    const campaign = Campaign(address);
+
+    setIsSending(true);
+    setErrorMessage("");
+    try {
+      const accounts = await web3.eth.getAccounts();
+
+      await campaign.methods
+        .createRequest(
+          descriptionValue,
+          web3.utils.toWei(amountValue, "ether"),
+          recipientValue
+        )
+        .send({
+          from: accounts[0],
+        });
+
+      router.push(`/campaigns/${address}/requests`);
+    } catch (err) {
+      setErrorMessage(err.message);
+    }
+
+    // Once done
+    setIsSending(false);
+  };
 
   return (
     <Layout>
-      <h3>New Request</h3>
+      <Link href={`/campaigns/${address}/requests`}>
+        <a>Back</a>
+      </Link>
+      <h3>Create a Request</h3>
       <Form error={!!errorMessage}>
         <Form.Field>
           <label>Description</label>
@@ -55,10 +90,17 @@ function New({ address }) {
           />
         </Form.Field>
 
-        <Button primary onClick={handleCreateButton}>
-          Create Request
+        <Button loading={isSending} primary onClick={handleCreateButton}>
+          Create!
         </Button>
       </Form>
+      {errorMessage && (
+        <Message
+          error
+          header="There was some errors with your submission"
+          content={errorMessage}
+        />
+      )}
     </Layout>
   );
 }
