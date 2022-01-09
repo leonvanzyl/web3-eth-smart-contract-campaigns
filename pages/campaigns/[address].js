@@ -3,8 +3,9 @@ import React from "react";
 // NEXT JS imports
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 
-import { Card } from "semantic-ui-react";
+import { Card, Grid, Button } from "semantic-ui-react";
 
 // Ethereum stuff
 import Campaign from "../../ethereum/campaign";
@@ -12,15 +13,12 @@ import web3 from "../../ethereum/web3";
 
 // Custom Components
 import Layout from "../../components/UI/Layout";
+import ContributeForm from "../../components/campaigns/ContributeForm";
 
 function Show(props) {
-  // Router
-  const router = useRouter();
-  const address = router.query["address"];
-
-  // Summary Items
-
+  // Deconstruct Summary
   const {
+    address,
     balance,
     manager,
     minimumContribution,
@@ -69,7 +67,7 @@ function Show(props) {
       header: web3.utils.fromWei(balance, "ether"),
       description:
         "The balance is how much funds this campaign has available to spend.",
-      meta: "Balance (in Ether)",
+      meta: "Campaign Balance (in Ether)",
       style: {
         overflowWrap: "break-word",
       },
@@ -81,7 +79,27 @@ function Show(props) {
       <Head>
         <title>Details of Campaign {address}</title>
       </Head>
-      <Card.Group items={items} />
+      <h3>Campaign Detail</h3>
+
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={10}>
+            <Card.Group items={items} />
+          </Grid.Column>
+          <Grid.Column width={6}>
+            <ContributeForm address={address} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Link href={`/campaigns/${address}/requests`}>
+              <a>
+                <Button primary>View Requests</Button>
+              </a>
+            </Link>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </Layout>
   );
 }
@@ -94,6 +112,7 @@ Show.getInitialProps = async (data) => {
 
   return {
     summary: {
+      address: address,
       minimumContribution: summary[0],
       balance: summary[1],
       requestsCount: summary[2],
