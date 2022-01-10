@@ -53,8 +53,13 @@ contract Campaign {
     function contribute () public payable {
         require(msg.value > minContr, "Transaction value is less than minimum contribution amount!");
 
+        // Keep track of the number of contributors
+        if(!approvers[msg.sender]){
+            approversCount++;
+        }
+
+        // Add contributor to mapping
         approvers[msg.sender] = true;
-        approversCount++;
     }
 
 
