@@ -34,7 +34,9 @@ function Requests({ address, requestCount, requests, approversCount }) {
       <h3>Requests</h3>
 
       <Link href={`/campaigns/${address}/requests/new`}>
-        <Button primary>Add Request</Button>
+        <Button primary floated="right" style={{ marginBottom: 10 }}>
+          Add Request
+        </Button>
       </Link>
       <Table>
         <Header>
