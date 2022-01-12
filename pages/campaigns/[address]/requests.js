@@ -59,15 +59,34 @@ function Requests({ address, requestCount, requests, approversCount }) {
 }
 
 //uses server side rendering to call the campaign contracts
-Requests.getInitialProps = async (data) => {
-  const address = data.query["address"];
+// Requests.getInitialProps = async (data) => {
+//   const address = data.query["address"];
+
+//   const campaign = Campaign(address);
+
+//   const requestCount = await campaign.methods.getRequestCount().call();
+//   const approversCount = await campaign.methods.approversCount().call();
+
+//   console.log(approversCount);
+
+//   const requests = await Promise.all(
+//     Array(parseInt(requestCount))
+//       .fill()
+//       .map((_, index) => {
+//         return campaign.methods.requests(index).call();
+//       })
+//   );
+
+//   return { address, requestCount, requests, approversCount };
+// };
+
+export async function getServerSideProps(context) {
+  const address = context.params.address;
 
   const campaign = Campaign(address);
 
   const requestCount = await campaign.methods.getRequestCount().call();
   const approversCount = await campaign.methods.approversCount().call();
-
-  console.log(approversCount);
 
   const requests = await Promise.all(
     Array(parseInt(requestCount))
@@ -76,35 +95,16 @@ Requests.getInitialProps = async (data) => {
         return campaign.methods.requests(index).call();
       })
   );
+  console.log(requests);
 
-  return { address, requestCount, requests, approversCount };
-};
-
-// export async function getServerSideProps(context) {
-//   const address = context.params.address;
-
-//   const campaign = Campaign(address);
-
-//   const requestCount = await campaign.methods.getRequestCount().call();
-//   const approversCount = await campaign.methods.approversCount().call();
-
-//   const requests = await Promise.all(
-//     Array(parseInt(requestCount))
-//       .fill()
-//       .map((_, index) => {
-//         return campaign.methods.requests(index).call().json();
-//       })
-//   );
-//   console.log(requests);
-
-//   return {
-//     props: {
-//       address,
-//       requestCount,
-//       requests,
-//       approversCount,
-//     },
-//   };
-// }
+  return {
+    props: {
+      address,
+      requestCount,
+      requests: JSON.parse(JSON.stringify(requests)),
+      approversCount,
+    },
+  };
+}
 
 export default Requests;
