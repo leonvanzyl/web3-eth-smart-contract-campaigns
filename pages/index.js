@@ -37,9 +37,17 @@ const Index = (props) => {
 };
 
 //uses server side rendering to call the campaign contracts
-Index.getInitialProps = async () => {
+export async function getServerSideProps(context) {
   const campaigns = await factory.methods.getDeployedCampaigns().call();
-  return { campaigns };
-};
+  return {
+    props: {
+      campaigns,
+    },
+  };
+}
+// Index.getInitialProps = async () => {
+//   const campaigns = await factory.methods.getDeployedCampaigns().call();
+//   return { campaigns };
+// };
 
 export default Index;
