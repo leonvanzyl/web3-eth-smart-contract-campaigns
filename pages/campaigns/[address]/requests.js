@@ -79,4 +79,25 @@ Requests.getInitialProps = async (data) => {
   return { address, requestCount, requests, approversCount };
 };
 
+// export async function getServerSideProps(context) {
+//   const address = context.params.address;
+
+//   const campaign = Campaign(address);
+
+//   const requestCount = await campaign.methods.getRequestCount().call();
+//   const approversCount = await campaign.methods.approversCount().call();
+
+//   console.log(approversCount);
+
+//   const requests = await Promise.all(
+//     Array(parseInt(requestCount))
+//       .fill()
+//       .map((_, index) => {
+//         return campaign.methods.requests(index).call();
+//       })
+//   );
+
+//   return { props: { address, requestCount, requests, approversCount } };
+// }
+
 export default Requests;

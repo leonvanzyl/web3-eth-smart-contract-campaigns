@@ -105,21 +105,23 @@ function Show(props) {
 }
 
 //uses server side rendering to call the campaign contracts
-Show.getInitialProps = async (data) => {
-  const address = data.query["address"];
+export async function getServerSideProps(context) {
+  const address = context.params.address;
   const campaign = Campaign(address);
   const summary = await campaign.methods.getSummary().call();
 
   return {
-    summary: {
-      address: address,
-      minimumContribution: summary[0],
-      balance: summary[1],
-      requestsCount: summary[2],
-      approversCount: summary[3],
-      manager: summary[4],
+    props: {
+      summary: {
+        address: address,
+        minimumContribution: summary[0],
+        balance: summary[1],
+        requestsCount: summary[2],
+        approversCount: summary[3],
+        manager: summary[4],
+      },
     },
   };
-};
+}
 
 export default Show;

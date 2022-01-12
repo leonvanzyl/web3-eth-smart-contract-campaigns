@@ -45,9 +45,5 @@ export async function getServerSideProps(context) {
     },
   };
 }
-// Index.getInitialProps = async () => {
-//   const campaigns = await factory.methods.getDeployedCampaigns().call();
-//   return { campaigns };
-// };
 
 export default Index;
