@@ -108,8 +108,12 @@ function New({ address }) {
 export default New;
 
 //uses server side rendering to call the campaign contracts
-New.getInitialProps = async (data) => {
-  const address = data.query["address"];
 
-  return { address };
-};
+export async function getServerSideProps(context) {
+  const address = context.params.address;
+  return {
+    props: {
+      address,
+    },
+  };
+}

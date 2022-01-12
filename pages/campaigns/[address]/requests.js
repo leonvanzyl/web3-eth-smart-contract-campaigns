@@ -10,6 +10,7 @@ import web3 from "../../../ethereum/web3";
 // Custom Components
 import Layout from "../../../components/UI/Layout";
 import RequestRow from "../../../components/requests/RequestRow";
+import { json } from "mocha/lib/reporters";
 
 function Requests({ address, requestCount, requests, approversCount }) {
   const { Header, Row, HeaderCell, Body } = Table;
@@ -87,17 +88,23 @@ Requests.getInitialProps = async (data) => {
 //   const requestCount = await campaign.methods.getRequestCount().call();
 //   const approversCount = await campaign.methods.approversCount().call();
 
-//   console.log(approversCount);
-
 //   const requests = await Promise.all(
 //     Array(parseInt(requestCount))
 //       .fill()
 //       .map((_, index) => {
-//         return campaign.methods.requests(index).call();
+//         return campaign.methods.requests(index).call().json();
 //       })
 //   );
+//   console.log(requests);
 
-//   return { props: { address, requestCount, requests, approversCount } };
+//   return {
+//     props: {
+//       address,
+//       requestCount,
+//       requests,
+//       approversCount,
+//     },
+//   };
 // }
 
 export default Requests;
