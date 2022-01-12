@@ -1,5 +1,5 @@
 const Web3 = require("web3");
-const ENV = require("./env");
+// const ENV = require("./env");
 
 let web3;
 
@@ -9,7 +9,8 @@ if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
   web3 = new Web3(window.ethereum);
 } else {
   // We are on the server *OR* the user is not running metamask
-  const provider = new Web3.providers.HttpProvider(ENV.INFURA_ENDPOINT);
+  // const provider = new Web3.providers.HttpProvider(ENV.INFURA_ENDPOINT);
+  const provider = new Web3.providers.HttpProvider(process.env.INFURA_ENDPOINT);
   web3 = new Web3(provider);
 }
 

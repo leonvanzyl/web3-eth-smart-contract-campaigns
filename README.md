@@ -8,12 +8,11 @@ The front end uses Next.js & React.
 
 # Setting up Environment Variable File
 
-Create a file called env.js in die ethereum directory.
-Add the following values to ENV.JS:
+Create a file called .env.local in the root directory.
+Add the following values to .env.local:
 
 ```javascript
-module.exports = {
-INFURA_ENDPOINT: [Infura Endpoint URL],
-MNEMONIC: [Your MetaMask Mnemonic],
-};
+INFURA_ENDPOINT=[Infura Endpoint URL],
+MNEMONIC=[Your MetaMask Mnemonic],
+
 ```

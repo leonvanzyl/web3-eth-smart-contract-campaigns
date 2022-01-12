@@ -3,8 +3,12 @@ const Web3 = require("web3");
 
 const compiledFactory = require("./build/CampaignFactory.json");
 
-const ENV = require("./env");
-provider = new HDWalletProvider(ENV.MNEMONIC, ENV.INFURA_ENDPOINT);
+// const ENV = require("./env");
+// provider = new HDWalletProvider(ENV.MNEMONIC, ENV.INFURA_ENDPOINT);
+provider = new HDWalletProvider(
+  process.env.MNEMONIC,
+  process.env.INFURA_ENDPOINT
+);
 
 const web3 = new Web3(provider);
 
